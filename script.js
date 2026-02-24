@@ -9,10 +9,10 @@ async function sha256(message) {
 // SUPABASE CONFIGURATION (Fill these after creating Supabase project)
 const SUPABASE_URL = "https://vlmwrkjfdvbwndffbhhm.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsbXdya2pmZHZid25kZmZiaGhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MTg1NDEsImV4cCI6MjA4NzQ5NDU0MX0.i4oQGKRBA8hpk_A5OKd7qwHtlNT8zh7TYvIfZMyKXyE";
-let supabase = null;
+let supabaseClient = null;
 
 if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
 // SECURE CODES (Hashed SHA-256)
@@ -94,8 +94,8 @@ async function saveEdits() {
   localStorage.setItem('portfolio_content', appContent);
 
   // 2. Supabase Logic
-  if (supabase) {
-    const { data, error } = await supabase
+  if (supabaseClient) {
+    const { data, error } = await supabaseClient
       .from('portfolio_data')
       .upsert({ id: 1, html_content: appContent, updated_at: new Date() });
 
@@ -196,8 +196,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   // 1. Try Supabase Load
-  if (supabase) {
-    const { data, error } = await supabase
+  if (supabaseClient) {
+    const { data, error } = await supabaseClient
       .from('portfolio_data')
       .select('html_content')
       .eq('id', 1)
