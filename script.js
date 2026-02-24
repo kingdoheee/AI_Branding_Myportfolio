@@ -41,41 +41,6 @@ document.getElementById('access-code').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleLogin();
 });
 
-function enterApp(mode) {
-  const screen = document.getElementById('login-screen');
-  const badge = document.getElementById('mode-badge');
-  const app = document.getElementById('app');
-
-  screen.style.opacity = '0';
-  setTimeout(() => {
-    screen.style.display = 'none';
-    app.style.display = 'block';
-    if (mode === 'admin') {
-      document.body.classList.add('edit-mode');
-      badge.textContent = 'ADMIN MODE';
-      document.getElementById('edit-hint').style.display = 'block';
-      document.getElementById('admin-toolbar').style.display = 'flex';
-      makeEditable();
-    }
-  }, 500);
-}
-
-function makeEditable() {
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    el.contentEditable = true;
-  });
-}
-
-function logout() {
-  location.reload();
-}
-
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tabId).classList.add('active');
-  btn.classList.add('active');
-}
 
 function toggleProj(header) {
   const card = header.parentElement;
