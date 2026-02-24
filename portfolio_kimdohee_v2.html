@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIM DOHEE — Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --gold: #F5B400;
+    --gold-light: #FFD23F;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #222222;
+    --gray: #666666;
+    --gray-mid: #888888;
+    --gray-light: #AAAAAA;
+    --white: #F5F2ED;
+    --white2: #E8E4DE;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+    word-break: keep-all;
+  }
+
+  /* ===== LOGIN ===== */
+  #login-screen {
+    position: fixed; inset: 0;
+    background: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+
+  .login-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(245,180,0,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(245,180,0,0.04) 0%, transparent 60%);
+  }
+
+  .login-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,180,0,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,180,0,0.035) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .login-box {
+    position: relative; width: 440px;
+    padding: 60px 50px;
+    border: 1px solid rgba(245,180,0,0.18);
+    background: rgba(17,17,17,0.96);
+    animation: fadeInUp 0.7s ease forwards;
+  }
+
+  .login-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.35em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  .login-title {
+    font-size: 44px; font-weight: 800; line-height: 1.1;
+    color: var(--white); margin-bottom: 6px;
+  }
+
+  .login-title em { color: var(--gold); font-style: normal; }
+
+  .login-sub {
+    font-size: 15px; font-weight: 300; color: var(--gray-light);
+    margin-bottom: 48px; letter-spacing: 0.03em;
+  }
+
+  .login-label {
+    display: block; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.25em; color: var(--gold); margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .login-input {
+    width: 100%; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 14px 18px; font-size: 16px; font-weight: 400;
+    font-family: 'Pretendard', sans-serif;
+    color: var(--white); outline: none; transition: border-color 0.3s;
+    margin-bottom: 16px; letter-spacing: 0.05em;
+  }
+
+  .login-input:focus { border-color: var(--gold); background: rgba(245,180,0,0.04); }
+  .login-input::placeholder { color: var(--gray); }
+
+  .login-btn {
+    width: 100%; padding: 16px;
+    background: var(--gold); color: var(--black);
+    border: none; font-family: 'Pretendard', sans-serif;
+    font-size: 14px; font-weight: 800; letter-spacing: 0.25em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+  }
+
+  .login-btn:hover { background: var(--gold-light); }
+
+  .login-error {
+    color: #ff6b6b; font-size: 13px; font-weight: 500;
+    margin-top: 12px; text-align: center; display: none;
+  }
+
+  .login-hint {
+    margin-top: 32px; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px; color: var(--gray); text-align: center; line-height: 2;
+  }
+
+  .login-hint strong { color: var(--white2); }
+
+  /* ===== NAV ===== */
+  #app { display: none; }
+
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 60px; padding: 0 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.94); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,180,0,0.1);
+  }
+
+  .nav-logo {
+    font-size: 14px; font-weight: 800; letter-spacing: 0.18em;
+    color: var(--gold); text-transform: uppercase;
+  }
+
+  .nav-tabs { display: flex; }
+
+  .nav-tab {
+    padding: 8px 22px; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gray-light); background: none; border: none;
+    cursor: pointer; position: relative; transition: color 0.25s;
+  }
+
+  .nav-tab::after {
+    content: ''; position: absolute; bottom: -1px; left: 22px; right: 22px;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.25s;
+  }
+
+  .nav-tab.active { color: var(--gold); }
+  .nav-tab.active::after { transform: scaleX(1); }
+  .nav-tab:hover { color: var(--white); }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .mode-badge {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.2em;
+    padding: 3px 10px; border: 1px solid; text-transform: uppercase;
+  }
+
+  .mode-badge.view { color: var(--gray); border-color: rgba(255,255,255,0.12); }
+  .mode-badge.admin { color: var(--gold); border-color: var(--gold); }
+
+  .logout-btn {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--gray); background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4px 12px; cursor: pointer; transition: all 0.25s;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  .logout-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+
+  /* ===== CONTENT ===== */
+  .content { padding-top: 60px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== COMMON ===== */
+  .page-hero {
+    padding: 80px 64px 72px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.35em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 20px;
+  }
+
+  .hero-title {
+    font-size: 64px; font-weight: 700; line-height: 1.18;
+    color: var(--white); margin-bottom: 0;
+  }
+
+  .hero-title em { color: var(--gold); font-style: normal; }
+
+  .section {
+    padding: 72px 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .sec-header {
+    display: flex; align-items: baseline; gap: 14px; margin-bottom: 48px;
+  }
+
+  .sec-num {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.25em;
+    color: var(--gold); text-transform: uppercase;
+  }
+
+  .sec-title {
+    font-size: 26px; font-weight: 600; color: var(--white);
+  }
+
+  /* ===== TAB 1: RESUME ===== */
+  .resume-hero {
+    padding: 80px 64px 72px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: start;
+  }
+
+  .r-name {
+    font-size: 76px; font-weight: 700; line-height: 1.05;
+    color: var(--white); margin-bottom: 6px;
+  }
+
+  .r-name-en {
+    font-size: 20px; font-weight: 300; color: var(--gray-light);
+    letter-spacing: 0.1em; margin-bottom: 28px;
+  }
+
+  .r-tagline {
+    font-size: 18px; font-weight: 500; color: var(--gold);
+    line-height: 1.8; margin-bottom: 36px;
+  }
+
+  .r-contacts { display: flex; flex-direction: column; gap: 11px; }
+
+  .r-contact-row {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 15px; font-weight: 400; color: var(--gray-light); line-height: 1.6;
+  }
+
+  .r-contact-key {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+    color: var(--gold); width: 55px; flex-shrink: 0; padding-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .stat-cards { display: flex; flex-direction: column; gap: 14px; }
+
+  .stat-card {
+    padding: 20px 24px;
+    border: 1px solid rgba(245,180,0,0.14);
+    background: rgba(245,180,0,0.025);
+    display: flex; align-items: center; gap: 18px;
+  }
+
+  .stat-num {
+    font-size: 36px; font-weight: 800; color: var(--gold); white-space: nowrap; line-height: 1;
+  }
+
+  .stat-desc { font-size: 14px; font-weight: 400; color: var(--gray-light); line-height: 1.7; }
+
+  /* CAREER */
+  .career-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 40px; padding-bottom: 56px; margin-bottom: 56px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .career-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .ci-period { font-size: 13px; font-weight: 600; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 6px; }
+  .ci-duration { font-size: 13px; font-weight: 400; color: var(--gray); margin-bottom: 12px; }
+  .ci-role {
+    display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    color: var(--gray-light); padding: 3px 9px;
+    border: 1px solid rgba(255,255,255,0.12); text-transform: uppercase;
+  }
+
+  .ci-company { font-size: 24px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .ci-dept { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 20px; }
+
+  .ci-desc { font-size: 15px; font-weight: 400; color: var(--gray-light); line-height: 2; margin-bottom: 14px; }
+
+  .ci-work-title {
+    font-size: 11px; font-weight: 600; color: var(--gray-mid); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 10px; margin-top: 20px;
+  }
+
+  .ci-work-list {
+    list-style: none; display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .ci-work-list li {
+    font-size: 15px; font-weight: 400; color: var(--gray-light); line-height: 1.85;
+    padding-left: 16px; position: relative;
+  }
+
+  .ci-work-list li::before {
+    content: '–'; position: absolute; left: 0; color: var(--gold);
+  }
+
+  .ci-achievements {
+    background: rgba(245,180,0,0.03); border-left: 2px solid var(--gold);
+    padding: 16px 20px; margin-top: 10px;
+  }
+
+  .ci-ach-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  .ci-ach-list {
+    list-style: none; display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .ci-ach-list li {
+    font-size: 14px; font-weight: 400; color: var(--gray-light); line-height: 1.85;
+    padding-left: 16px; position: relative;
+  }
+
+  .ci-ach-list li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); font-size: 8px; top: 6px; }
+
+  .ci-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+
+  .tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+    padding: 4px 11px; border: 1px solid rgba(245,180,0,0.25);
+    color: var(--gold);
+  }
+
+  /* SKILLS GRID */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+
+  .skill-card {
+    padding: 24px; border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.015); transition: all 0.25s;
+  }
+
+  .skill-card:hover { border-color: rgba(245,180,0,0.28); background: rgba(245,180,0,0.025); }
+  .skill-icon { font-size: 22px; margin-bottom: 10px; }
+  .skill-name { font-size: 13px; font-weight: 800; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
+  .skill-body { font-size: 14px; font-weight: 400; color: var(--gray-light); line-height: 1.8; }
+
+  /* EDU */
+  .edu-item {
+    display: flex; gap: 28px; padding: 20px 24px;
+    border: 1px solid rgba(255,255,255,0.06); margin-bottom: 12px;
+  }
+
+  .edu-period { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--gold); white-space: nowrap; padding-top: 2px; min-width: 130px; }
+  .edu-name { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+  .edu-detail { font-size: 14px; color: var(--gray-light); }
+
+  /* ACTIVITIES */
+  .activity-item {
+    display: grid; grid-template-columns: 170px 1fr; gap: 24px;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .activity-item:last-child { border-bottom: none; }
+  .activity-period { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--gold); }
+  .activity-name { font-size: 15px; font-weight: 600; color: var(--white); }
+  .activity-desc { font-size: 14px; color: var(--gray-light); margin-top: 2px; }
+
+  /* ===== TAB 2: PORTFOLIO ===== */
+  .portfolio-hero {
+    padding: 72px 56px 56px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .ph-intro { font-size: 17px; font-weight: 400; color: var(--gray-light); max-width: 680px; line-height: 1.9; margin-bottom: 44px; margin-top: 20px; }
+
+  .cap-grid { display: flex; gap: 0; }
+
+  .cap-item {
+    flex: 1; padding: 26px 28px;
+    border: 1px solid rgba(255,255,255,0.07); border-right: none;
+    text-align: center;
+  }
+
+  .cap-item:last-child { border-right: 1px solid rgba(255,255,255,0.07); }
+
+  .cap-num { display: block; font-size: 40px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+  .cap-label { font-size: 14px; font-weight: 600; color: var(--gray-light); letter-spacing: 0.05em; }
+
+  /* PROJECTS */
+  .proj-section { padding: 72px 64px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .proj-section:last-child { border-bottom: none; }
+
+  .proj-sec-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+  .proj-sec-title { font-size: 22px; font-weight: 600; color: var(--white); }
+  .proj-sec-sub { font-size: 11px; font-weight: 500; color: var(--gold); letter-spacing: 0.25em; text-transform: uppercase; }
+
+  .proj-card { border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.01); margin-bottom: 8px; transition: border-color 0.25s; }
+  .proj-card:hover { border-color: rgba(245,180,0,0.28); }
+  .proj-card:last-child { margin-bottom: 0; }
+
+  .proj-head {
+    padding: 28px 32px; cursor: pointer;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+    user-select: none;
+  }
+
+  .proj-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+
+  .proj-type {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    color: var(--gold); padding: 3px 10px;
+    border: 1px solid rgba(245,180,0,0.25); text-transform: uppercase;
+  }
+
+  .proj-budget { font-size: 13px; font-weight: 400; color: var(--gray); }
+  .proj-name { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 8px; line-height: 1.45; }
+  .proj-period { font-size: 13px; font-weight: 400; color: var(--gray-light); letter-spacing: 0.03em; }
+
+  .proj-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+
+  .proj-contrib { text-align: right; }
+  .contrib-pct { display: block; font-size: 26px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .contrib-op { display: block; font-size: 10px; font-weight: 500; color: var(--gray); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
+
+  .expand-btn {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--gray-light); text-transform: uppercase;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 14px; transition: all 0.2s; white-space: nowrap;
+  }
+
+  .expand-btn .expand-icon {
+    font-size: 13px; transition: transform 0.3s; display: inline-block; line-height: 1;
+  }
+
+  .proj-card.open .expand-btn {
+    color: var(--gold); border-color: rgba(245,180,0,0.3); background: rgba(245,180,0,0.05);
+  }
+
+  .proj-card.open .expand-icon { transform: rotate(180deg); }
+
+  .proj-body { display: none; padding: 0 32px 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 26px; }
+  .proj-body.open { display: block; }
+
+  .proj-motivation { margin-bottom: 16px; }
+  .proj-motivation-title { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+
+  .motivation-list { display: flex; flex-direction: column; gap: 6px; }
+
+  .motivation-item {
+    padding: 10px 14px; background: rgba(245,180,0,0.03); border-left: 2px solid rgba(245,180,0,0.4);
+    font-size: 14px; color: var(--gray-light); line-height: 1.8;
+  }
+
+  .motivation-item strong { color: var(--gold); font-weight: 700; display: block; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+
+  .proj-contrib-detail { margin-bottom: 16px; }
+  .proj-contrib-detail-title { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+
+  .contrib-rows { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+  .contrib-row {
+    padding: 10px 14px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.01);
+  }
+
+  .contrib-row-pct { font-size: 20px; font-weight: 800; color: var(--gold); display: block; line-height: 1.1; }
+  .contrib-row-label { font-size: 11px; font-weight: 600; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+  .contrib-row-desc { font-size: 13px; color: var(--gray-light); line-height: 1.7; }
+
+  .proj-idea { margin-bottom: 16px; }
+  .proj-idea-title { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+  .proj-idea-content { font-size: 15px; color: var(--gray-light); line-height: 1.9; }
+  .proj-idea-content strong { color: var(--white); font-weight: 700; }
+
+  .proj-outcomes { margin-top: 16px; }
+  .proj-outcomes-title { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+
+  .outcomes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+  .outcome-item {
+    padding: 14px; background: rgba(245,180,0,0.04);
+    border-left: 2px solid var(--gold);
+  }
+
+  .outcome-title { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .outcome-text { font-size: 13px; color: var(--gray-light); line-height: 1.7; }
+
+  .proj-notes { margin-top: 12px; padding: 12px 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+  .proj-notes-text { font-size: 11px; color: var(--gray); line-height: 1.8; }
+
+  /* ===== TAB 3: CAREER DESC ===== */
+  .cd-hero-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px;
+  }
+
+  .cd-stat-item { padding: 26px 28px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+  .cd-stat-num { font-size: 44px; font-weight: 800; color: var(--gold); display: block; margin-bottom: 4px; line-height: 1; }
+  .cd-stat-label { font-size: 14px; color: var(--gray-light); line-height: 1.7; }
+
+  .main-skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+
+  .main-skill-item { padding: 24px; border: 1px solid rgba(255,255,255,0.07); }
+  .main-skill-name { font-size: 13px; font-weight: 800; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .main-skill-body { font-size: 15px; color: var(--gray-light); line-height: 1.9; }
+
+  /* PROG TABLE */
+  .prog-table { width: 100%; border-collapse: collapse; }
+
+  .prog-table th {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold);
+    text-align: left; padding: 11px 18px; border-bottom: 1px solid rgba(245,180,0,0.18);
+    text-transform: uppercase;
+  }
+
+  .prog-table td {
+    padding: 15px 18px; font-size: 15px; color: var(--gray-light);
+    border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; line-height: 1.8;
+  }
+
+  .prog-table td:first-child { font-weight: 700; color: var(--white); font-size: 14px; white-space: nowrap; }
+
+  .prog-table tr:last-child td { border-bottom: none; }
+
+  .level-badge {
+    display: inline-block; padding: 2px 9px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; border: 1px solid;
+  }
+
+  .level-h { color: var(--gold); border-color: var(--gold); background: rgba(245,180,0,0.08); }
+  .level-m { color: #7ECFFF; border-color: #7ECFFF; background: rgba(126,207,255,0.05); }
+  .level-l { color: var(--gray-light); border-color: rgba(255,255,255,0.18); }
+
+  /* CD CAREER DETAIL */
+  .cd-career-item {
+    border: 1px solid rgba(255,255,255,0.06); margin-bottom: 10px; background: rgba(255,255,255,0.01);
+  }
+
+  .cd-career-item:last-child { margin-bottom: 0; }
+
+  .cd-ci-header {
+    padding: 26px 32px; cursor: pointer;
+    display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s; user-select: none;
+  }
+
+  .cd-ci-header:hover { background: rgba(255,255,255,0.02); }
+
+  .cd-ci-company { font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+  .cd-ci-meta { font-size: 14px; font-weight: 400; color: var(--gold); margin-bottom: 8px; }
+  .cd-ci-period { font-size: 12px; font-weight: 400; color: var(--gray-light); }
+
+  .cd-ci-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex-shrink: 0; }
+
+  .cd-ci-role {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: var(--gray-light);
+    padding: 4px 10px; border: 1px solid rgba(255,255,255,0.12); display: inline-block; text-transform: uppercase;
+  }
+
+  .cd-expand-btn {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--gray-light); text-transform: uppercase;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 14px; transition: all 0.2s; white-space: nowrap;
+  }
+
+  .cd-expand-btn .expand-icon { font-size: 13px; transition: transform 0.3s; display: inline-block; line-height: 1; }
+
+  .cd-career-item.open .cd-expand-btn {
+    color: var(--gold); border-color: rgba(245,180,0,0.3); background: rgba(245,180,0,0.05);
+  }
+
+  .cd-career-item.open .cd-expand-btn .expand-icon { transform: rotate(180deg); }
+
+  .cd-ci-body { padding: 28px 32px; display: none; }
+  .cd-ci-body.open { display: block; }
+
+  .cd-ci-section { margin-bottom: 24px; }
+  .cd-ci-section:last-child { margin-bottom: 0; }
+
+  .cd-ci-sec-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 12px;
+  }
+
+  .cd-ci-body-text { font-size: 15px; font-weight: 400; color: var(--gray-light); line-height: 2; }
+
+  .proj-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .proj-list-item {
+    padding: 14px 18px; border-left: 2px solid rgba(245,180,0,0.28);
+    background: rgba(255,255,255,0.015);
+  }
+
+  .proj-list-item-head {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap;
+  }
+
+  .proj-list-item-period { font-size: 11px; font-weight: 600; color: var(--gold); letter-spacing: 0.1em; }
+  .proj-list-item-name { font-size: 15px; font-weight: 600; color: var(--white); }
+  .proj-list-item-desc { font-size: 14px; font-weight: 400; color: var(--gray-light); line-height: 1.9; }
+
+  /* ===== ADMIN ===== */
+  .edit-mode [contenteditable="true"] {
+    outline: none; cursor: text;
+    border-bottom: 1px dashed rgba(245,180,0,0.35); transition: background 0.2s;
+  }
+
+  .edit-mode [contenteditable="true"]:hover { background: rgba(245,180,0,0.04); }
+  .edit-mode [contenteditable="true"]:focus { background: rgba(245,180,0,0.06); border-color: var(--gold); }
+
+  .admin-toolbar {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    display: none; flex-direction: column; gap: 7px; align-items: flex-end;
+  }
+
+  .admin-toolbar.visible { display: flex; }
+
+  .atb-label { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold); text-align: right; margin-bottom: 2px; }
+
+  .atb-btn {
+    font-size: 13px; font-weight: 800; letter-spacing: 0.15em;
+    padding: 11px 22px; border: none; cursor: pointer;
+    transition: all 0.2s; text-transform: uppercase; font-family: 'Pretendard', sans-serif;
+  }
+
+  .atb-save { background: var(--gold); color: var(--black); }
+  .atb-save:hover { background: var(--gold-light); }
+  .atb-discard { background: rgba(255,255,255,0.07); color: var(--gray-light); }
+  .atb-discard:hover { background: rgba(255,255,255,0.12); color: var(--white); }
+
+  .edit-hint {
+    position: fixed; top: 76px; left: 50%; transform: translateX(-50%);
+    background: rgba(245,180,0,0.1); border: 1px solid rgba(245,180,0,0.28);
+    color: var(--gold); padding: 7px 20px; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.1em; z-index: 99; display: none; white-space: nowrap;
+  }
+
+  .edit-hint.visible { display: block; }
+
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--black); padding: 11px 26px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.15em; z-index: 300;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none; text-transform: uppercase;
+  }
+
+  .toast.show { opacity: 1; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes loginExit {
+    to { opacity: 0; transform: translateY(-40px); }
+  }
+
+  .login-exit { animation: loginExit 0.45s ease forwards; }
+
+  /* Divider */
+  .divider {
+    height: 1px; background: rgba(255,255,255,0.05); margin: 0 56px;
+  }
+
+  /* Scroll indicator for accordion */
+  .proj-head-arrow {
+    font-size: 11px; color: var(--gray); margin-top: 4px; transition: transform 0.25s;
+  }
+
+  .proj-body.open ~ .proj-head-arrow,
+  .proj-card.open .proj-head-arrow { transform: rotate(180deg); }
+
+  @media (max-width: 900px) {
+    .resume-hero { grid-template-columns: 1fr; }
+    .skills-grid, .cd-hero-stats, .main-skills-grid { grid-template-columns: 1fr; }
+    .career-item, .cd-ci-header { grid-template-columns: 1fr; }
+    .cap-grid { flex-direction: column; }
+    .outcomes-grid, .contrib-rows { grid-template-columns: 1fr; }
+    .nav { padding: 0 20px; }
+    .section, .resume-hero, .portfolio-hero, .proj-section { padding: 36px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-box">
+    <div class="login-eyebrow">Portfolio · 2025</div>
+    <h1 class="login-title">KIM<br><em>DOHEE</em></h1>
+    <p class="login-sub">교육 기획/운영 전문가 · 경력 7년 3개월</p>
+    <label class="login-label">Access Code</label>
+    <input class="login-input" type="password" id="access-code" placeholder="••••••••" autocomplete="off">
+    <button class="login-btn" onclick="handleLogin()">ENTER →</button>
+    <div class="login-error" id="login-error">올바르지 않은 코드입니다.</div>
+    <div class="login-hint">
+      보기 모드 : <strong>view2025</strong><br>
+      관리자 모드 : <strong style="color:var(--gold)">admin2025!</strong>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav class="nav">
+    <div class="nav-logo">KIM · DOHEE</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('resume',this)">이력서</button>
+      <button class="nav-tab" onclick="switchTab('portfolio',this)">포트폴리오</button>
+      <button class="nav-tab" onclick="switchTab('career',this)">경력기술서</button>
+    </div>
+    <div class="nav-right">
+      <span class="mode-badge view" id="mode-badge">VIEW MODE</span>
+      <button class="logout-btn" onclick="logout()">LOGOUT</button>
+    </div>
+  </nav>
+
+  <div class="edit-hint" id="edit-hint">✦ ADMIN MODE — 텍스트를 클릭하여 직접 편집하세요</div>
+
+  <div class="content">
+
+    <!-- ==================== TAB 1: 이력서 ==================== -->
+    <div class="tab-panel active" id="tab-resume">
+
+      <!-- HERO -->
+      <div class="resume-hero">
+        <div>
+          <div class="eyebrow">이력서 · Resume</div>
+          <h1 class="r-name" data-editable>김도희</h1>
+          <div class="r-name-en" data-editable>Kim Dohee</div>
+          <p class="r-tagline" data-editable>3만 시간 이상 직접 교육해본<br>교육 기획/운영 전문가입니다</p>
+          <div class="r-contacts">
+            <div class="r-contact-row"><span class="r-contact-key">TEL</span><span data-editable>010-9947-9875</span></div>
+            <div class="r-contact-row"><span class="r-contact-key">EMAIL</span><span data-editable>kingdoheee@gmail.com</span></div>
+            <div class="r-contact-row"><span class="r-contact-key">ADDR</span><span data-editable>경기도 안양시 동안구 시민대로 230</span></div>
+            <div class="r-contact-row"><span class="r-contact-key">BORN</span><span data-editable>1994년 11월 12일</span></div>
+            <div class="r-contact-row"><span class="r-contact-key">LANG</span><span data-editable>TOEIC 895 (비즈니스, 교육 가능)</span></div>
+            <div class="r-contact-row"><span class="r-contact-key">SALARY</span><span data-editable>희망연봉 면접 시 협의</span></div>
+          </div>
+        </div>
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-num" data-editable>7년 3개월</div>
+            <div class="stat-desc" data-editable>국내·외 IT 교육 기반 사업 기획, 영업, 운영 유관 경력 (레퍼런스 체크 가능)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-editable>20억+</div>
+            <div class="stat-desc" data-editable>글로벌 기업 및 정부기관 대상 억대 사업 기획 및 입찰 누적 성사 금액</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-editable>2회</div>
+            <div class="stat-desc" data-editable>적극적인 영업 및 신규 사업 기획으로 경험한 분사 횟수</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 경력사항 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">01</span><h2 class="sec-title">경력사항</h2></div>
+
+        <div class="career-item">
+          <div>
+            <div class="ci-period" data-editable>2021.12 — 2024.10</div>
+            <div class="ci-duration" data-editable>2년 10개월</div>
+            <div class="ci-role" data-editable>팀장</div>
+          </div>
+          <div>
+            <div class="ci-company" data-editable>㈜엔닷라이트</div>
+            <div class="ci-dept" data-editable>교육팀</div>
+            <div class="ci-work-title">주요 업무</div>
+            <ul class="ci-work-list">
+              <li data-editable>사업 확장을 위한 국내·외 영업 및 비즈니스 네트워크 구축 (주업무)</li>
+              <li data-editable>자사 SW 기반 IT 교육 기획·운영</li>
+              <li data-editable>IT·R&D 기반 정부 과제 입찰 및 운영 (부업무)</li>
+              <li data-editable>서비스 참여를 위한 대규모 온·오프라인 사용자 커뮤니티 형성</li>
+              <li data-editable>사내 데이터베이스·업무 프로세스 구축 담당</li>
+            </ul>
+            <div class="ci-achievements">
+              <div class="ci-ach-title">주요 성과</div>
+              <ul class="ci-ach-list">
+                <li data-editable>국내·외 영업을 통해 총 5만 명 이상의 신규 소프트웨어 사용자 발굴</li>
+                <li data-editable>성남시청소년재단, 우리동네키움센터, 폴리텍대학교 등 대형 교육기관 MOU 체결로 정기 사업 운영</li>
+                <li data-editable>엔닷캐드 공식 강사양성과정 12회 이상 운영, 공식 강사진 300명 이상 양성</li>
+                <li data-editable>파생 교육으로 10만 이상의 소프트웨어 누적 접속자 기록</li>
+                <li data-editable>국내 20개 이상 라이선스 대리점 생성</li>
+                <li data-editable>CES·MWC·Vivatech 해외 전시 부스 운영 (2023)</li>
+                <li data-editable>2023 대한민국 교육박람회 부스 단독 기획·운영 총괄</li>
+                <li data-editable>엔비디아와의 글로벌 기업 협업 프로그램 참여, 우수 AI 스타트업 선정</li>
+                <li data-editable>성남시 청년창업 아이디에이션 4.0 교류사업 기획·운영 (2억원 규모)</li>
+                <li data-editable>삼성 SDS, 한국관광공사, 농협금융 등 협업 프로젝트 메타버스 콘텐츠 제작, 누적 50만명 접속자 유치</li>
+              </ul>
+            </div>
+            <div class="ci-tags">
+              <span class="tag">교육기획</span><span class="tag">B2B·B2G영업</span><span class="tag">정부입찰</span><span class="tag">해외전시</span><span class="tag">커뮤니티운영</span><span class="tag">강사양성</span><span class="tag">DB구축</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="career-item">
+          <div>
+            <div class="ci-period" data-editable>2020.04 — 2021.11</div>
+            <div class="ci-duration" data-editable>1년 7개월</div>
+            <div class="ci-role" data-editable>PD</div>
+          </div>
+          <div>
+            <div class="ci-company" data-editable>㈜엔피프틴</div>
+            <div class="ci-dept" data-editable>메이커콘텐츠팀</div>
+            <div class="ci-work-title">주요 업무</div>
+            <ul class="ci-work-list">
+              <li data-editable>4차산업혁명 주제 융합 IT 콘텐츠 기획·개발 (주업무)</li>
+              <li data-editable>온·오프라인 교육 행사 기획·운영 (부업무)</li>
+              <li data-editable>기존 프로그램의 온라인화를 위한 업무 프로세스 및 온라인 송출 환경 구축</li>
+              <li data-editable>사내 데이터베이스·업무 프로세스 구축 담당</li>
+            </ul>
+            <div class="ci-achievements">
+              <div class="ci-ach-title">주요 성과</div>
+              <ul class="ci-ach-list">
+                <li data-editable>BAT, LG, 포스텍 등 신규 파트너 발굴로 코로나 시기 온라인 기반 행사 운영 성공</li>
+                <li data-editable>LG 인화원 최초 메타버스(게더타운) 기반 교육 프로그램 기획·운영</li>
+                <li data-editable>가톨릭대학교 기업 내 최초 온라인 아이디어 해커톤 기획·운영 사례 생성</li>
+                <li data-editable>2021 BAT 코리아 오픈이노베이션 해커톤 기획·운영, 홍보부터 스타트업 모집·관리·행사까지 대부분 단독 진행</li>
+                <li data-editable>LG MBA 고객 직면 라이브커머스, LG 공상평 상품기획 태스크 등 LG 계열 다수 프로그램 운영</li>
+                <li data-editable>3,000건 이상의 신규 스타트업 DB 관리 체계 생성 (본인 제안 → TF 발족)</li>
+                <li data-editable>사내 Project Management Sheet·공유 데이터 체계 구축으로 전사 직원 대상 사내 교육 실시</li>
+              </ul>
+            </div>
+            <div class="ci-tags">
+              <span class="tag">콘텐츠개발</span><span class="tag">온라인전환</span><span class="tag">해커톤운영</span><span class="tag">DB구축</span><span class="tag">메타버스</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="career-item">
+          <div>
+            <div class="ci-period" data-editable>2019.07 — 2020.04</div>
+            <div class="ci-duration" data-editable>10개월</div>
+            <div class="ci-role" data-editable>대리</div>
+          </div>
+          <div>
+            <div class="ci-company" data-editable>㈜이앤오즈</div>
+            <div class="ci-dept" data-editable>미래교육실2팀</div>
+            <div class="ci-work-title">주요 업무</div>
+            <ul class="ci-work-list">
+              <li data-editable>IT 교육 콘텐츠 기획·운영 (주업무)</li>
+              <li data-editable>교육 기반 정부 과제 입찰·운영 B2G (부업무)</li>
+              <li data-editable>4차산업혁명 관련 IT·메이커·진로 분야 콘텐츠 기획/개발/강의</li>
+              <li data-editable>공공기관·대기업 주관 중·대형 프로젝트 입찰 사업 기획·운영 관리</li>
+              <li data-editable>글로벌 기관·학교 협력 온라인 프로젝트 최초 연계·운영 담당</li>
+            </ul>
+            <div class="ci-achievements">
+              <div class="ci-ach-title">주요 성과</div>
+              <ul class="ci-ach-list">
+                <li data-editable>2019 청소년 비즈쿨 메이커스페이스 연계 체험프로그램 위탁 용역 사업 — 전국 비즈쿨 학교 250개교·메이커스페이스 60개 기관 연계 사업 운영, 우수 수행 기관 선정</li>
+                <li data-editable>2019 도서관 길위의 인문학 사업 (문화체육관광부) — 우수 수행 기관 선정</li>
+                <li data-editable>2019 글로벌 아세안 메이커톤 기획·운영 — 태국·필리핀·한국 고교생 대상</li>
+                <li data-editable>최초의 필리핀-한국 연계 글로벌 비대면 메이커톤 운영 사례 생성 (글로벌 링크드 프로젝트)</li>
+                <li data-editable>서울 소재 중·고등학교 20개교 대상 '에디슨 로봇을 활용한 피지컬 SW 코딩 체험' 진로 강의 운영</li>
+              </ul>
+            </div>
+            <div class="ci-tags">
+              <span class="tag">교육콘텐츠</span><span class="tag">B2G입찰</span><span class="tag">글로벌운영</span><span class="tag">메이커교육</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="career-item">
+          <div>
+            <div class="ci-period" data-editable>2017.07 — 2019.07</div>
+            <div class="ci-duration" data-editable>2년</div>
+            <div class="ci-role" data-editable>주임연구원</div>
+          </div>
+          <div>
+            <div class="ci-company" data-editable>㈜메이킷에듀</div>
+            <div class="ci-dept" data-editable>송도/대치점 연구부</div>
+            <div class="ci-work-title">주요 업무</div>
+            <ul class="ci-work-list">
+              <li data-editable>프로그래밍 콘텐츠 기획 및 강의 (주업무) — 6세~성인 폭넓은 연령 대상</li>
+              <li data-editable>온라인 SNS 운영·학생 DB 관리 (부업무)</li>
+              <li data-editable>SW와 HW·메이킹·교과목 등을 융합한 콘텐츠 개발</li>
+              <li data-editable>경영 관리·홍보 등 운영 업무 지원</li>
+            </ul>
+            <div class="ci-work-title" style="margin-top:14px">강의 콘텐츠 범위</div>
+            <ul class="ci-work-list">
+              <li data-editable>블록형 언어: Scratch Jr, Scratch 2.0/3.0, Entry, App Inventor, Thunkable</li>
+              <li data-editable>텍스트형 언어: Python, C, C++, C#+Unity, RobotC, JavaScript, HTML, CSS</li>
+              <li data-editable>프로그래밍 이론: 언플러그드 컴퓨팅, 컴퓨팅 사고력, 알고리즘, 자료구조, 빅데이터, 인공지능</li>
+              <li data-editable>융합형 강의: 수학 연계 코딩, 과학 연계 코딩, IoT 기반 프로젝트 (Arduino, Raspberry Pi 등), 3D 프린터·레이저 커팅기</li>
+              <li data-editable>대회 대비: 초/중/고 정보올림피아드, 청소년과학탐구대회, 코드페어, 기업별 공모전, COS·코딩지도사·정보처리자격증</li>
+            </ul>
+            <div class="ci-achievements">
+              <div class="ci-ach-title">주요 성과</div>
+              <ul class="ci-ach-list">
+                <li data-editable>수학 연계 코딩 학원 '메이킷매쓰' 분사 기여 — SW와 교과목 융합 콘텐츠 단독 개발</li>
+                <li data-editable>30종 이상의 신규 강의 개설 성공</li>
+                <li data-editable>코딩·AI 공모전 등 수상 사례 발굴</li>
+                <li data-editable>대회 대비반 운영을 통한 수상 성과 창출 (Google Colaboratory + TensorFlow 활용 팬톤 색상 예측 모델 컨설팅 → 2021 인공지능 자율탐구대회 관장상)</li>
+              </ul>
+            </div>
+            <div class="ci-tags">
+              <span class="tag">코딩강의</span><span class="tag">교재개발</span><span class="tag">SNS운영</span><span class="tag">AI교육</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 학력 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">02</span><h2 class="sec-title">학력사항</h2></div>
+        <div class="edu-item">
+          <div class="edu-period" data-editable>2013.03 — 2017.08</div>
+          <div>
+            <div class="edu-name" data-editable>인하대학교</div>
+            <div class="edu-detail" data-editable>컴퓨터정보공학부 · 학점 3.72 / 4.5</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-period" data-editable>2010.03 — 2013.02</div>
+          <div>
+            <div class="edu-name" data-editable>부평여자고등학교</div>
+            <div class="edu-detail" data-editable>인문계</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 대외활동 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">03</span><h2 class="sec-title">대외활동</h2></div>
+        <div class="activity-item">
+          <div class="activity-period" data-editable>2024.03 — 2024.10</div>
+          <div>
+            <div class="activity-name" data-editable>성남시 청년창업 아이디에이션 해외 교류사업 운영</div>
+            <div class="activity-desc" data-editable>산타클라라 대학교, NVIDIA, Adobe 등 네트워크를 활용, XR 분야 관심 성남시 청년에게 해외 취창업 탐색 기회 제공</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-period" data-editable>2023.01 — 2023.06</div>
+          <div>
+            <div class="activity-name" data-editable>CES, MWC, Vivatech 해외 전시 부스 운영</div>
+            <div class="activity-desc" data-editable>라스베이거스 CES 삼성 C-Lab 전시관 내 부스 운영 (CES 혁신상 수상) / 바르셀로나 MWC 4YFN 부스 운영 / 파리 Vivatech 부스 운영</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-period" data-editable>2023.01</div>
+          <div>
+            <div class="activity-name" data-editable>2023 대한민국 교육박람회 부스 단독 기획·운영 총괄</div>
+            <div class="activity-desc" data-editable>4만 5천 명 방문 대규모 교육박람회, 전시 기획·홍보·운영까지 단독 총괄</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 주요역량 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">04</span><h2 class="sec-title">주요 역량</h2></div>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon">📋</div>
+            <div class="skill-name">제안서 작성</div>
+            <div class="skill-body" data-editable>B2B·B2G 교육 및 R&D 사업 제안서 단독 작성. 주 업무가 아니었음에도 누적 10억 이상 입찰 성공. 2024년도 B2G 10건 지원 → 서류 합격 8건, 최종 합격 4건 선정.</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🌐</div>
+            <div class="skill-name">해외 영업</div>
+            <div class="skill-body" data-editable>2023년부터 CES, MWC, Vivatech 등 세계 주요 박람회에서 IT 기반 소프트웨어 영업 담당. 협업사와의 소통, 계약 서류 작성 등 후속 업무까지 전담.</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🎪</div>
+            <div class="skill-name">전시 기획·운영</div>
+            <div class="skill-body" data-editable>전시 부스 기획부터 협력업체 선정, 인쇄물 제작, 운영 매뉴얼 제작 등 A to Z 경험. 2023 대한민국 교육박람회 대규모 부스 단독 기획·운영 총괄.</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">📊</div>
+            <div class="skill-name">데이터 기반 업무 효율화</div>
+            <div class="skill-body" data-editable>엑셀·노션 기반 데이터 시각화 및 업무 프로세스 효율적 관리. 성과 지표를 쉽게 확인·공유하는 체계를 항상 자체 구축. 사내 TF 발족으로 전사 적용 사례 보유.</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">💻</div>
+            <div class="skill-name">프로그래밍</div>
+            <div class="skill-body" data-editable>Python·HTML·CSS·JavaScript 상급, Unity+C#·C·C++ 중급, Java 기본. 행사용 페이지 구축, 메타버스 공간 제작 등 실무 활용 경험 보유.</div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">🤝</div>
+            <div class="skill-name">파트너십 구축</div>
+            <div class="skill-body" data-editable>NVIDIA, Adobe, 삼성 SDS, LG, 포스텍, 성남시, 한국타이어, 샌드박스 코리아 등 대·중소 규모 다양한 파트너십 기획·운영 경험.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end tab-resume -->
+
+    <!-- ==================== TAB 2: 포트폴리오 ==================== -->
+    <div class="tab-panel" id="tab-portfolio">
+
+      <div class="portfolio-hero">
+        <div class="eyebrow">Portfolio · 포트폴리오 2025</div>
+        <h1 class="hero-title">교육 사업 기획과 운영에<br>필요한 <em>세 가지</em> 핵심 역량</h1>
+        <p class="ph-intro" data-editable>3만 시간 이상 직접 교육하며, 되는 교육을 아는 기획자입니다. 제안서 작성 역량, 사업 운영 역량, 영업 관리 역량을 대표 프로젝트 사례로 소개합니다.</p>
+        <div class="cap-grid">
+          <div class="cap-item">
+            <span class="cap-num">①</span>
+            <span class="cap-label">제안서 작성 역량</span>
+          </div>
+          <div class="cap-item">
+            <span class="cap-num">②</span>
+            <span class="cap-label">사업 운영 역량</span>
+          </div>
+          <div class="cap-item">
+            <span class="cap-num">③</span>
+            <span class="cap-label">영업 관리 역량</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ① 제안서 작성 -->
+      <div class="proj-section">
+        <div class="proj-sec-header">
+          <h2 class="proj-sec-title">① 제안서 작성 (B2B, B2G)</h2>
+          <span class="proj-sec-sub">Proposal Writing</span>
+        </div>
+        <p style="font-size:15px;color:var(--gray-light);line-height:1.9;margin-bottom:24px;" data-editable>사업 기획 초기에는 교육 사업만을 기획하여 제안했으나, 컴퓨터정보공학 전공으로 IT 기술 개발에 대한 이해도가 있어 사업 확장에 도움이 되는 기술 기반 R&D 사업 과제도 담당하게 되었습니다. 주로 파트너 확보를 위한 오픈이노베이션 사업이나 지원금이 주어지는 개발 혁신 사업에 지원하며, 2024년도에는 B2G로 10건의 사업에 지원, 서류 합격까지는 8건, 최종 합격까지는 4건의 사업이 선정되는 데 기여했습니다.</p>
+
+        <!-- 프로젝트 1 -->
+        <div class="proj-card">
+          <div class="proj-head" onclick="toggleProj(this)">
+            <div>
+              <div class="proj-meta">
+                <span class="proj-type">B2G · 창업진흥원</span>
+                <span class="proj-budget" data-editable>1.5억원 / 10개월</span>
+              </div>
+              <div class="proj-name" data-editable>2024 글로벌 기업 협업 프로그램 창업기업 모집 (with NVIDIA)</div>
+              <div class="proj-period" data-editable>2024.01 — 2024.10</div>
+            </div>
+            <div class="proj-right">
+              <div class="proj-contrib">
+                <span class="contrib-pct" data-editable>기획 70%</span>
+                <span class="contrib-op">기여도</span>
+              </div>
+              <div class="expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-motivation">
+              <div class="proj-motivation-title">사업 지원 동기</div>
+              <div class="motivation-list">
+                <div class="motivation-item"><strong>① 사업 적합성</strong><span data-editable>당시 개발 부서에서 3D 모델을 자동 생성하는 AI 모델을 개발중인 상황 → 해당 기능을 출시하기 전 AI 모델에 대한 기술 컨설팅, 시장성에 대한 검증을 받을 수 있는 기회라고 판단</span></div>
+                <div class="motivation-item"><strong>② 엔비디아와의 파트너십 강화</strong><span data-editable>엔비디아와는 이전 연도 Inception이라는 스타트업 지원 사업을 통해 네트워크를 구축한 상태. 자사 소프트웨어를 엔비디아의 O**** 3D 플랫폼에 연동하고자 하는 목적이 있었으며, 이번 협업을 통해 엔비디아 생태계에 진입하고자 하는 목표</span></div>
+                <div class="motivation-item"><strong>③ 마케팅 / 판로개척 기회</strong><span data-editable>현재 해당 AI 모델의 예상 타겟층과 엔비디아의 기존 파트너사가 일치하는 부분이 많아 사업 내 해외 비즈니스 매칭 지원 부분이 도움이 될 것으로 판단</span></div>
+              </div>
+            </div>
+            <div class="proj-contrib-detail">
+              <div class="proj-contrib-detail-title">기여도 상세</div>
+              <div class="contrib-rows">
+                <div class="contrib-row">
+                  <span class="contrib-row-label">기획 70%</span>
+                  <span class="contrib-row-pct">70%</span>
+                  <div class="contrib-row-desc" data-editable>엔비디아 AI 연동 아이디어 제안, 1차 제안서 및 2차 발표자료 단독 작성. 나머지 기여도는 자세한 R&D 과정에 대한 개발팀 자문, 일정 확인 등</div>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row-label">운영 40%</span>
+                  <span class="contrib-row-pct">40%</span>
+                  <div class="contrib-row-desc" data-editable>프로젝트 일정 및 운영 관리, 엔비디아와의 소통, 네트워킹 행사 참여. 나머지 기여도는 실제 솔루션에 대한 개발</div>
+                </div>
+              </div>
+            </div>
+            <div class="proj-idea">
+              <div class="proj-idea-title">제안 아이디어</div>
+              <div class="proj-idea-content" data-editable><strong>제조 현장에서 범용적으로 사용되는 AI 모델 강화를 위한 자동 3D 데이터셋 생성 모델</strong><br><br>
+              스마트팩토리 기술이 적용된 요즘의 제조 현장(공장)에서는 불량 검출, 산업 진단 등을 목적으로 비전 AI 모델을 사용하고 있음. 여기서 기업들은 많은 돈을 들여 해당 기업에 딱 맞는 데이터셋을 만들어 활용하는데, 이를 AI로 자동화하면 효율적인 사업 모델이 나올 것이라고 판단.</div>
+            </div>
+            <div class="proj-outcomes">
+              <div class="proj-outcomes-title">운영 성과</div>
+              <div class="outcomes-grid">
+                <div class="outcome-item">
+                  <div class="outcome-title">한국타이어 PoC 연계</div>
+                  <div class="outcome-text" data-editable>한국타이어와 '2024 산업단지 오픈이노베이션 KICXUP 챌린지' 사업에 엔비디아와의 공동 개발 건을 PoC 할 수 있도록 아이템 제안, 입찰 성공으로 새로운 파트너사 확보</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">엔비디아 파트너십 강화</div>
+                  <div class="outcome-text" data-editable>사업 기간 내 다수의 컨설팅, 본사 컨택, 경기스타트업서밋 등의 행사 공동 참여로 다양한 부서와 컨택. 사업 종료 시 '우수 AI 스타트업'으로 선정되어 더 많은 지원 확보</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">마케팅 / 판로개척</div>
+                  <div class="outcome-text" data-editable>타 사업 제안 시에도 엔비디아와의 파트너십을 어필해 타 기업 대비 경쟁력 확보. 온/오프라인 기사·SNS 홍보에도 활용</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 프로젝트 2 -->
+        <div class="proj-card">
+          <div class="proj-head" onclick="toggleProj(this)">
+            <div>
+              <div class="proj-meta">
+                <span class="proj-type">B2G · 산업통상자원부</span>
+                <span class="proj-budget" data-editable>1,500만원 / 5개월</span>
+              </div>
+              <div class="proj-name" data-editable>2024 산업단지 오픈이노베이션 KICXUP 챌린지 사업</div>
+              <div class="proj-period" data-editable>2024.07 — 2024.11</div>
+            </div>
+            <div class="proj-right">
+              <div class="proj-contrib">
+                <span class="contrib-pct" data-editable>기획 90%</span>
+                <span class="contrib-op">기여도</span>
+              </div>
+              <div class="expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-motivation">
+              <div class="proj-motivation-title">사업 지원 동기</div>
+              <div class="motivation-list">
+                <div class="motivation-item"><strong>① 사업 적합성</strong><span data-editable>한국앤컴퍼니는 당시 '로봇' 분야에서 Vision AI 기반 머신러닝 알고리즘 기술 개발을 원하고 있었음. 당시 엔비디아와 함께 개발중인 Vision AI 강화 솔루션을 PoC 할 수 있는 좋은 기회라고 판단하여 제안 결정</span></div>
+                <div class="motivation-item"><strong>② 한국앤컴퍼니와의 파트너십 강화</strong><span data-editable>해외 박람회 운영 당시 한국앤컴퍼니의 '한국타이어'사가 타이어 제조 관련 페인포인트가 있음을 구두로 확인한 경험이 있었기에, 이번 사업을 통해 이를 해결할 수 있는 방안을 제시하고 장기적인 파트너십을 구축하고자 하는 목적</span></div>
+              </div>
+            </div>
+            <div class="proj-contrib-detail">
+              <div class="proj-contrib-detail-title">기여도 상세</div>
+              <div class="contrib-rows">
+                <div class="contrib-row">
+                  <span class="contrib-row-label">기획 90%</span>
+                  <span class="contrib-row-pct">90%</span>
+                  <div class="contrib-row-desc" data-editable>한국타이어–엔비디아 AI 연동 아이디어 제안, 1차 제안서 및 2차 발표자료 단독 작성. 나머지 기여도는 자세한 R&D 과정에 대한 개발팀 자문</div>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row-label">운영 40%</span>
+                  <span class="contrib-row-pct">40%</span>
+                  <div class="contrib-row-desc" data-editable>프로젝트 일정 및 운영 관리, 한국타이어와의 소통. 나머지 기여도는 실제 솔루션에 대한 개발</div>
+                </div>
+              </div>
+            </div>
+            <div class="proj-idea">
+              <div class="proj-idea-title">제안 아이디어</div>
+              <div class="proj-idea-content" data-editable><strong>타이어 품질 개선을 위한 Vision AI 강화 기술</strong><br><br>
+              한국타이어는 지금까지 타이어 불량 검출을 위해 사람들이 육안으로 검사하는 비효율적인 과정을 채택했으며, 최근에서야 Vision AI를 시범 설치하고 있음. 빠른 정확도 개선을 위해 자사가 개발중인 솔루션을 제안하고자 함.<br><br>
+              비전 AI 분야에서는 정확도 90%는 높은 수치가 아니다. 그 이상의 성능을 끌어올리는 방법은 양질의 '데이터셋'을 구축하는 방법이다. 기존 기업이 수행하는 이미지 합성 방식의 합성 데이터는 관측 범위를 조금 넓혀줄 뿐, 모든 케이스를 커버할 수 없다. 우리가 제안하는 아이템은 훨씬 다양한 방식으로 데이터를 생성할 수 있기 때문에 오탐지 케이스 자체를 획기적으로 감소시킬 수 있음.</div>
+            </div>
+            <div class="proj-outcomes">
+              <div class="proj-outcomes-title">운영 성과</div>
+              <div class="outcomes-grid">
+                <div class="outcome-item">
+                  <div class="outcome-title">최종 선정 성공</div>
+                  <div class="outcome-text" data-editable>한국앤컴퍼니의 요건에 맞는 Vision AI 강화 솔루션 제안이 선정되어 PoC 진행</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">파트너십 구축</div>
+                  <div class="outcome-text" data-editable>해외 박람회에서 확인한 페인포인트 연결, 장기 협력 관계로 발전하는 발판 마련</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">글로벌 네트워크 활용</div>
+                  <div class="outcome-text" data-editable>CES·MWC 전시 경험과 엔비디아 협력을 이번 제안서에서도 경쟁력으로 어필</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- end proj-section 1 -->
+
+      <!-- ② 교육 사업 운영 역량 -->
+      <div class="proj-section">
+        <div class="proj-sec-header">
+          <h2 class="proj-sec-title">② 교육 사업 운영 역량</h2>
+          <span class="proj-sec-sub">Program Operation</span>
+        </div>
+        <p style="font-size:15px;color:var(--gray-light);line-height:1.9;margin-bottom:24px;" data-editable>온/오프라인으로 사람들 앞에서 다양한 주제로 3만 시간 이상 직접 강의해왔습니다. 강의에서 터득한 노하우로 신규 IT 교육을 제안·영업하는 일을 하면서 전체적인 사업을 체계적으로 관리하게 되었습니다. 특히 코로나 기간에는 모든 교육 과정을 발빠르게 온라인으로 전환하며 LG 인화원, 삼성디자인교육원의 HRD 교육 기획·운영을 총괄하기도 했습니다.</p>
+
+        <!-- 프로젝트 3 -->
+        <div class="proj-card">
+          <div class="proj-head" onclick="toggleProj(this)">
+            <div>
+              <div class="proj-meta">
+                <span class="proj-type">HRD · SADI 삼성디자인교육원</span>
+                <span class="proj-budget" data-editable>5천만원 / 1개월</span>
+              </div>
+              <div class="proj-name" data-editable>Idea to Action, 창업 경험과 혁신 아이디어 발굴 (with SADI, 삼성디자인교육원)</div>
+              <div class="proj-period" data-editable>2021.06 — 2021.06</div>
+            </div>
+            <div class="proj-right">
+              <div class="proj-contrib">
+                <span class="contrib-pct" data-editable>기획 70%</span>
+                <span class="contrib-op">기여도</span>
+              </div>
+              <div class="expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-motivation">
+              <div class="proj-motivation-title">사업 지원 동기</div>
+              <div class="motivation-list">
+                <div class="motivation-item"><strong>① 사업 적합성</strong><span data-editable>당시 '서울시 디지털대장간'이라는 메이커스페이스 사업에 선정되어 제품 개발에 필요한 장비 및 공간을 보유하고 있었음. 사업 운영을 통해 디지털대장간 측에도 SADI 파트너와의 협업 사례를 보고할 수 있어, 두 주관사 모두 Win-Win인 사업이라고 판단</span></div>
+                <div class="motivation-item"><strong>② 전 과정 비대면 교육 사례 생성</strong><span data-editable>당시 많은 교육 사업이 코로나로 인해 중단된 상태였으므로, 전 과정을 비대면으로 진행하는 교육 사례를 빠르게 쌓고 새로운 영업을 진행할 계획이었음. 실제 해당 사례로 포항공대, 가천대, 건국대 등의 교육 기관에 비대면 교육 과정으로 사업 수주하는 성과를 거둠</span></div>
+              </div>
+            </div>
+            <div class="proj-contrib-detail">
+              <div class="proj-contrib-detail-title">기여도 상세</div>
+              <div class="contrib-rows">
+                <div class="contrib-row">
+                  <span class="contrib-row-label">기획 70%</span>
+                  <span class="contrib-row-pct">70%</span>
+                  <div class="contrib-row-desc" data-editable>비대면 기반 모의 창업 교육 아이디어 제안, 교육 제안서 및 운영 자료 단독 작성. 나머지 기여도는 시설 및 연사 섭외에 대한 일정 조율</div>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row-label">운영 60%</span>
+                  <span class="contrib-row-pct">60%</span>
+                  <div class="contrib-row-desc" data-editable>온라인 교육 관리 플랫폼 구축·관리, 전체적인 운영 총괄. 나머지 기여도는 멘토링·심사 관리 등에 대한 부분</div>
+                </div>
+              </div>
+            </div>
+            <div class="proj-idea">
+              <div class="proj-idea-title">제안 아이디어</div>
+              <div class="proj-idea-content" data-editable><strong>기업가 정신과 스타트업 문화를 경험할 수 있는 '가상 창업 프로그램'</strong><br><br>
+              SADI는 디자인 분야에서 혁신과 발전을 이루고자 하는 다양한 성인들이 있는 기관으로, 개인 창업이나 역량 강화에도 관심이 많은 그룹이라 교육을 통한 모의 창업 과정에 많은 관심을 가지고 있을 것이라고 판단함.<br><br>
+              Day 1: 아이디에이션 (문제정의·해결책 도출) / Day 2: 기획 및 준비 (수립 아이디어 구체화 준비) / Day 3: 프로토타입 제작(1) (아이디어 실현 서비스 제작·멘토링) / Day 4: 프로토타입 제작(2) / Day 5: 데모데이 (스스로 정의한 문화를 통해 문제해결 능력과 기업가 정신 고취)</div>
+            </div>
+            <div class="proj-outcomes">
+              <div class="proj-outcomes-title">운영 성과</div>
+              <div class="outcomes-grid">
+                <div class="outcome-item">
+                  <div class="outcome-title">Idea to Action 상품화</div>
+                  <div class="outcome-text" data-editable>기획한 프로그램이 교육 상품으로 세팅되어, 다음 해에 동일한 포맷으로 SADI와 교육 협업을 이어나갈 수 있었으며, 포항공대·가천대·건국대 등 다양한 교육 기관과의 협업 기회 확보</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">비대면 HRD 확장</div>
+                  <div class="outcome-text" data-editable>성공적인 비대면 교육 사례로 LG 인화원에서 200명을 대상으로 대규모 온라인 교육을 진행한 사례로 연계. 제작한 비대면 툴 사용 튜토리얼은 전사에서 활용 가능한 자료로 사용</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">창업 성과 발굴</div>
+                  <div class="outcome-text" data-editable>이전 교육을 통해 크라우드펀딩 5,681% 달성, 56,813,400원 모금, 3,077명 서비스 예약자를 모집한 제조 창업 사례 'Lincon' 탄생 (2017-2018 개발)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 프로젝트 4 -->
+        <div class="proj-card">
+          <div class="proj-head" onclick="toggleProj(this)">
+            <div>
+              <div class="proj-meta">
+                <span class="proj-type">B2G · 교육부</span>
+                <span class="proj-budget" data-editable>대규모 / 2개월</span>
+              </div>
+              <div class="proj-name" data-editable>2023 대한민국 교육박람회 부스 단독 기획·운영 총괄</div>
+              <div class="proj-period" data-editable>2022.12 — 2023.01</div>
+            </div>
+            <div class="proj-right">
+              <div class="proj-contrib">
+                <span class="contrib-pct" data-editable>기획 90%</span>
+                <span class="contrib-op">기여도</span>
+              </div>
+              <div class="expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-motivation">
+              <div class="proj-motivation-title">사업 지원 동기</div>
+              <div class="motivation-list">
+                <div class="motivation-item"><strong>① 자사의 23년도 교육 솔루션 및 상품 판매</strong><span data-editable>자사는 청소년을 타겟으로도 3D 솔루션·교육 상품을 판매하고 있었으므로, 오프라인 홍보와 체험 클래스 운영으로 청소년 신규 유저를 확보하고 유료 사용자를 추가 모집하고자 함</span></div>
+                <div class="motivation-item"><strong>② B2G·B2B 네트워크 구축</strong><span data-editable>교육 박람회에 참여하는 교육 기관과의 협업, 교육 기관 담당자 데이터 수집으로 추가적인 교육 네트워크를 구축하기 위해 참여 결정</span></div>
+              </div>
+            </div>
+            <div class="proj-contrib-detail">
+              <div class="proj-contrib-detail-title">기여도 상세</div>
+              <div class="contrib-rows">
+                <div class="contrib-row">
+                  <span class="contrib-row-label">기획 90%</span>
+                  <span class="contrib-row-pct">90%</span>
+                  <div class="contrib-row-desc" data-editable>전체적인 사업 목표 설정·운영 방안 기획. 24년도 교육 사업을 '엔닷에듀'로 리브랜딩하여 홍보하는 아이디어 제안. 나머지 기여도는 기존 체험 프로그램에 대한 피드백 수집</div>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row-label">운영 60%</span>
+                  <span class="contrib-row-pct">60%</span>
+                  <div class="contrib-row-desc" data-editable>전 운영에 대한 온라인 매뉴얼 구축·현장 운영 총괄. 나머지 기여도는 출력물 디자인·장비 세팅 지원에 대한 부분</div>
+                </div>
+              </div>
+            </div>
+            <div class="proj-idea">
+              <div class="proj-idea-title">제안 아이디어</div>
+              <div class="proj-idea-content" data-editable><strong>24년도 교육 사업을 '엔닷에듀'로 리브랜딩하여 사람들에게 홍보</strong><br><br>
+              솔루션 이름에 가려진 교육 사업을 전면으로 내세우고, 우리가 추구하는 교육의 방향과 특성을 확고히 할 수 있는 자리가 필요하다고 생각함. 체험과 홍보를 통해 우리가 솔루션 기업이 아닌 교육 기업으로 받아들일 수 있도록 리브랜딩을 제안.<br><br>
+              스탬프 투어(총 3단계 체험 → 스탬프 모아 달력 굿즈·엔닷캐드 1달 무료 이용권 제공), 원데이클래스 운영 등 전체 시나리오 기획. 부스 운영 매뉴얼을 온라인으로 공유하여 전 인원이 원활하게 응대할 수 있도록 준비.</div>
+            </div>
+            <div class="proj-outcomes">
+              <div class="proj-outcomes-title">운영 성과</div>
+              <div class="outcomes-grid">
+                <div class="outcome-item">
+                  <div class="outcome-title">신규 유저 확보</div>
+                  <div class="outcome-text" data-editable>체험 클래스와 스탬프 투어 이벤트로 청소년 신규 SW 사용자 확보 및 유료 사용자 추가 모집</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">B2G·B2B 네트워크</div>
+                  <div class="outcome-text" data-editable>교육 기관 담당자 데이터 수집, 추후 정기 교육 파트너십으로 이어지는 기반 마련</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">리브랜딩 성공</div>
+                  <div class="outcome-text" data-editable>'엔닷에듀' 브랜드를 시장에 처음 소개, 이후 교육 사업 브랜드로 정착하는 계기 마련</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- end proj-section 2 -->
+
+      <!-- ③ 영업 관리 역량 -->
+      <div class="proj-section">
+        <div class="proj-sec-header">
+          <h2 class="proj-sec-title">③ 영업 관리 역량</h2>
+          <span class="proj-sec-sub">Sales Management</span>
+        </div>
+        <p style="font-size:15px;color:var(--gray-light);line-height:1.9;margin-bottom:24px;" data-editable>새로운 파트너와 사업을 모색하는 것 만큼 중요한 업무는 기존 파트너와의 영업 네트워크를 지속적으로 관리하는 것입니다. 저는 교육 사업을 진행할수록 누적되는 교육 지표와 협력 기관 데이터를 DB화하여 전사에서 사용하는 관리 체계를 만들어왔습니다.</p>
+
+        <!-- 프로젝트 5 -->
+        <div class="proj-card">
+          <div class="proj-head" onclick="toggleProj(this)">
+            <div>
+              <div class="proj-meta">
+                <span class="proj-type">B2B·B2G 교육 영업</span>
+                <span class="proj-budget" data-editable>3년 연속 운영</span>
+              </div>
+              <div class="proj-name" data-editable>엔닷캐드 공식 강사양성과정 및 파트너 네트워크 구축 (단독)</div>
+              <div class="proj-period" data-editable>2021.12 — 2024.10</div>
+            </div>
+            <div class="proj-right">
+              <div class="proj-contrib">
+                <span class="contrib-pct" data-editable>단독 기획</span>
+                <span class="contrib-op">기여도 100%</span>
+              </div>
+              <div class="expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-idea">
+              <div class="proj-idea-title">교육 데이터 DB화 — 연간 교육 일정 및 협력 기관 데이터 체계화</div>
+              <div class="proj-idea-content" data-editable>교육이 완료되면 자동으로 교육 일정 데이터를 테이블 형식으로 정리: 교육명 / 교육 일자 / 키워드 / 환경 / 담당자 / 강사 / 보조강사 / 장소 / 연계된 프로젝트 등의 항목을 정리하여 한눈에 다가오는 교육 일정을 파악. 교육 기관을 정리한 테이블과도 연동하여, 해당 교육 기관과 몇 번의 교육을 언제 했는지도 확인할 수 있어, 일정 기간이 지난 담당자에게 다시 영업을 할 수 있는 체계 구축.</div>
+            </div>
+            <div class="proj-idea" style="margin-top:16px;">
+              <div class="proj-idea-title">정기 교육 홍보자료 제작 — 직접 양성한 강사 300명이 활동하는 온라인 커뮤니티 (단독 운영)</div>
+              <div class="proj-idea-content" data-editable>직접 기획한 강사양성과정을 2년간 운영하며 300명 이상의 강사진을 양성, 지속적인 교육 영업·운영을 돕도록 다음과 같은 자료를 정기적으로 배포: 연간 강의 콘텐츠 소개 및 영업용 강의 계획서 (1년 단위) / 강사 전용 IT 보수교육 영상 (1개월 단위) / 소프트웨어 업데이트 소식 및 튜토리얼 (상시). 공식 강사진의 활동을 홍보하기 위해, 연계 교육을 진행했을 시 그 경험을 나눌 수 있는 게시판을 신설하고 상시로 교육 소식을 보고·소통할 수 있도록 안내.</div>
+            </div>
+            <div class="proj-outcomes" style="margin-top:16px;">
+              <div class="proj-outcomes-title">운영 성과</div>
+              <div class="outcomes-grid">
+                <div class="outcome-item">
+                  <div class="outcome-title">강사 300명+ 양성</div>
+                  <div class="outcome-text" data-editable>공식 강사진 300명 이상 양성, 파생 교육으로 소프트웨어 누적 접속자 10만 이상 달성 (N-DAY 개최)</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">5만명 신규 사용자</div>
+                  <div class="outcome-text" data-editable>국내·외 영업을 통해 총 5만 명 이상의 신규 소프트웨어 사용자 발굴. 성남시청소년재단·폴리텍대학 등 대형 교육기관 MOU 체결로 정기 사업 운영</div>
+                </div>
+                <div class="outcome-item">
+                  <div class="outcome-title">국내 20개+ 대리점</div>
+                  <div class="outcome-text" data-editable>기관·학원과 파트너십 계약 체결, 영업 인센티브 제공으로 국내 20개 이상 라이선스 대리점 생성</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 유사 프로젝트 참고 -->
+        <div style="margin-top:32px;padding:24px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">유사 프로젝트</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+            <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);">
+              <div style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">오픈이노베이션</div>
+              <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px;" data-editable>2024 콘텐츠 오픈이노베이션 글로벌</div>
+              <div style="font-size:13px;color:var(--gray-light);line-height:1.7;" data-editable>규모: 1천만원 + 공동협력 / 기간: 2024.06~11 (6개월). 샌드박스 코리아가 보유한 자체 UGC 툴과 연동 가능한 3D 콘텐츠 제작 지원 솔루션을 개발하는 사업으로, 자사가 보유한 솔루션을 연동하는 아이템 제안 → 추후 대규모 교육 공모전 진행도 논의</div>
+            </div>
+            <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);">
+              <div style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">사업화 지원</div>
+              <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px;" data-editable>2024 TIPS 해외마케팅 지원사업</div>
+              <div style="font-size:13px;color:var(--gray-light);line-height:1.7;" data-editable>규모: 1.5억원 / 기간: 2024.04~12 (9개월). TIPS 사업에 선정된 기업 중 해외 진출을 희망하는 기업에 마케팅 비용을 지원하는 사업. 제 2 진출 국가인 미국을 타겟으로 온라인 마케팅 계획을 제안</div>
+            </div>
+            <div style="padding:16px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);">
+              <div style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">교육 사업</div>
+              <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px;" data-editable>2024 성남시 청년창업 아이디에이션 4.0</div>
+              <div style="font-size:13px;color:var(--gray-light);line-height:1.7;" data-editable>규모: 2억원 / 기간: 2024.04~10 (7개월). 성남시청소년재단에 신규 제안한 사업. XR/MR 분야 취창업을 꿈꾸는 성남시 청년에게 역량 강화 교육과 미국 현지 멘토링·해커톤을 제공하며 우수 아이디어를 선정하는 대규모 해외 교육 프로그램 기획·운영 총괄. 참가자가 실리콘밸리 현지에서 NVIDIA·Adobe·Google 소속 연사를 섭외하여 기술 교육을 받을 수 있도록 지원.</div>
+            </div>
+          </div>
+        </div>
+      </div><!-- end proj-section 3 -->
+
+    </div><!-- end tab-portfolio -->
+
+    <!-- ==================== TAB 3: 경력기술서 ==================== -->
+    <div class="tab-panel" id="tab-career">
+
+      <div class="page-hero">
+        <div class="eyebrow">Career Description · 경력기술서</div>
+        <h1 class="hero-title">IT 교육 기획부터<br>사업 수주까지,<br><em>전방위 실무 전문가</em></h1>
+        <div class="cd-hero-stats">
+          <div class="cd-stat-item">
+            <span class="cd-stat-num" data-editable>20억+</span>
+            <div class="cd-stat-label" data-editable>누적 정부 사업 단독 수주 금액. 주 업무가 아니었음에도 누적 10억+ 성공 사례 보유.</div>
+          </div>
+          <div class="cd-stat-item">
+            <span class="cd-stat-num" data-editable>2회</span>
+            <div class="cd-stat-label" data-editable>신규 사업 기획 및 적극적인 영업으로 경험한 분사 횟수.</div>
+          </div>
+          <div class="cd-stat-item">
+            <span class="cd-stat-num" data-editable>300+</span>
+            <div class="cd-stat-label" data-editable>단독으로 양성한 공식 SW 강사 수. 파생 교육 누적 접속자 10만 이상.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 주요 역량 상세 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">01</span><h2 class="sec-title">주요 역량 상세</h2></div>
+        <div class="main-skills-grid">
+          <div class="main-skill-item">
+            <div class="main-skill-name">해외 영업</div>
+            <div class="main-skill-body" data-editable>2023년부터 CES, MWC, Vivatech과 같은 세계 주요 박람회 부스에서 IT 기반 소프트웨어 영업을 담당했으며 이후 협업사와의 소통, 계약 서류 작성 등의 업무를 도맡아 함</div>
+          </div>
+          <div class="main-skill-item">
+            <div class="main-skill-name">전시 기획 및 운영</div>
+            <div class="main-skill-body" data-editable>전시 부스 기획부터 협력 업체 선정, 인쇄물 제작, 운영 매뉴얼 제작 등 전시 업무의 A to Z를 진행한 경험이 있으며, 2024년도 교육박람회 대규모 부스 운영은 단독으로 기획 및 리딩</div>
+          </div>
+          <div class="main-skill-item">
+            <div class="main-skill-name">정부 사업 제안서 작성</div>
+            <div class="main-skill-body" data-editable>IT 분야의 높은 이해도로 교육 사업뿐만 아니라 R&D 사업 제안서 또한 단독 작성하여 입찰에 성공한 사례를 보유함. 주 업무가 아니었음에도 누적 10억 원 이상의 성공 사례 보유</div>
+          </div>
+          <div class="main-skill-item">
+            <div class="main-skill-name">데이터 기반 업무 효율화</div>
+            <div class="main-skill-body" data-editable>엑셀, 노션 기반의 데이터를 시각화하거나 업무 프로세스를 효율적으로 관리할 수 있는 페이지를 별도 구축해 성과 지표를 쉽게 확인, 공유하는 체계를 항상 만들어 왔음</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 프로그래밍 역량 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">02</span><h2 class="sec-title">프로그래밍 역량</h2></div>
+        <table class="prog-table">
+          <thead>
+            <tr>
+              <th>언어</th>
+              <th>수준</th>
+              <th>상세 역량</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-editable>Python</td>
+              <td><span class="level-badge level-h">상</span></td>
+              <td data-editable>기본, 알고리즘, A.I. 활용 강의 경력 보유. Google Colaboratory + TensorFlow를 활용한 팬톤 색상 예측 모델 컨설팅으로 담당 학생 2021년도 인공지능 자율탐구대회 관장상 수상.</td>
+            </tr>
+            <tr>
+              <td data-editable>HTML / CSS / JavaScript</td>
+              <td><span class="level-badge level-h">상</span></td>
+              <td data-editable>기본 강의, 해커톤 연계 강의 경력 보유. 기업 내 홍보용 홈페이지, 아카이빙 페이지 제작 경험 보유.</td>
+            </tr>
+            <tr>
+              <td data-editable>Unity + C#</td>
+              <td><span class="level-badge level-m">중</span></td>
+              <td data-editable>Unity 기반 간단한 2D/3D 게임, AR/VR 콘텐츠 개발 경험 보유. Vuforia 연계 프로젝트로 AR 콘텐츠 강의 경험 보유.</td>
+            </tr>
+            <tr>
+              <td data-editable>C</td>
+              <td><span class="level-badge level-m">중</span></td>
+              <td data-editable>기본 강의, 알고리즘 강의 경력 보유. 아두이노 연계 강의로 각종 해커톤 강의 및 멘토링, 심사 담당 경험 보유.</td>
+            </tr>
+            <tr>
+              <td data-editable>C++</td>
+              <td><span class="level-badge level-m">중</span></td>
+              <td data-editable>기본 강의, 알고리즘 강의 경력 보유.</td>
+            </tr>
+            <tr>
+              <td data-editable>Java</td>
+              <td><span class="level-badge level-l">하</span></td>
+              <td data-editable>기본 강의 경력 보유.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 세부 경력 -->
+      <div class="section">
+        <div class="sec-header"><span class="sec-num">03</span><h2 class="sec-title">세부 경력 기술</h2></div>
+
+        <!-- 엔닷라이트 -->
+        <div class="cd-career-item">
+          <div class="cd-ci-header" onclick="toggleCd(this)">
+            <div>
+              <div class="cd-ci-company" data-editable>㈜엔닷라이트</div>
+              <div class="cd-ci-meta" data-editable>교육팀 · 팀장</div>
+              <div class="cd-ci-period" data-editable>2021.12 — 2024.10 (2년 10개월) · 퇴사 사유: 조직 확장으로 인한 주요 직무 변경</div>
+            </div>
+            <div class="cd-ci-right">
+              <span class="cd-ci-role" data-editable>Team Lead</span>
+              <div class="cd-expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="cd-ci-body">
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">회사 소개</div>
+              <div class="cd-ci-body-text" data-editable>자체 제작한 3D 엔진 기반으로 모델링·렌더링 서비스를 개발·공급하는 IT 기술 스타트업.</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">주요 업무</div>
+              <div class="cd-ci-body-text" data-editable>사업 확장을 위한 국내·외 영업 및 비즈니스 네트워크 구축 / 서비스 참여를 위한 대규모 온·오프라인 사용자 커뮤니티 형성 / 사내 데이터베이스·업무 프로세스 구축 담당</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">대표 프로젝트 (전체 업무 대비 30% 이상 참여)</div>
+              <div class="proj-list">
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2021.12 — 2024.10</span>
+                    <span class="proj-list-item-name" data-editable>엔닷캐드 소프트웨어 장·단기 교육 영업 및 운영</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>국내·외 영업을 통해 총 5만 명 이상의 신규 SW 사용자 발굴. 성남시청소년재단·우리동네키움센터·폴리텍대학교 등 대형 교육기관 MOU 체결로 정기 사업 운영. 3D 그래픽스 교육 영상·교재 제작 후 온라인 배포. 대표 파트너사: KBS, 양천구청, 용인시교육지원청, 한국폴리텍대학교, 분당야탑청소년수련관, 분당서현청소년수련관, 전주정보문화산업진흥원, 서울시50플러스재단, 송파미래교육센터, 의왕시진로지원센터, 안산테크노파크, 부산사하도서관, 영선고등학교, 야탑고등학교 등</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2021.12 — 2024.10</span>
+                    <span class="proj-list-item-name" data-editable>엔닷캐드 공식 강사양성과정 및 커뮤니티 운영 (단독)</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>엔닷캐드 솔루션 확장을 위해 공식 강사양성과정 개발 및 12회 이상 운영. 공식 강사진 300명 이상 양성, 파생 교육으로 10만 이상의 소프트웨어 누적 접속자 기록.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2021.12 — 2024.10</span>
+                    <span class="proj-list-item-name" data-editable>엔닷캐드 공식 라이선스 파트너사 네트워크 구축</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>자사 소프트웨어를 할인된 금액으로 대리 판매할 수 있는 라이선스 파트너사 모집. 기관·학원과 파트너십 계약 체결, 영업 인센티브 제공으로 국내 20개 이상 대리점 생성.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2021.12 — 2022.07</span>
+                    <span class="proj-list-item-name" data-editable>엔닷캐드 활용 메타버스 콘텐츠 제작</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>자사 소프트웨어 홍보를 위한 로블록스·유니티 기반 메타버스 콘텐츠 제작 (프로그래밍 담당). 삼성 SDS·한국관광공사·농협금융 등 협업 프로젝트 진행, 누적 50만 명 이상의 접속자 유치.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2021.12 — 2024.08</span>
+                    <span class="proj-list-item-name" data-editable>엔닷라이트 공식 SNS 채널 운영</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>공식 SNS 계정 콘텐츠 주차별 제작·운영 (페이스북·블로그·홈페이지 게시판·링크드인 등). 3만 명 이상의 유저 대상 뉴스레터 제작, 월 1회 발송으로 사용자 재방문 유치. 월간 유입률 분석 및 개선으로 마케팅 시 별도 지출 없이 자체 이벤트 참여율 향상.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2023.01 — 2024.02</span>
+                    <span class="proj-list-item-name" data-editable>국내·외 전시회 부스 운영 및 해외 영업</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>2023 라스베이거스 CES 삼성 C-Lab 전시관 내 부스 운영 & CES 혁신상 수상 / 2023 바르셀로나 MWC 4YFN 전시관 내 부스 운영 / 2023 파리 Vivatech 전시관 내 부스 운영 / 2023 대한민국 교육박람회 부스 단독 기획·운영 총괄 / 이외에도 넥스트라이즈 2023, 경기스타트업서밋 엔비디아 부스 참여 등 다수의 전시 운영.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2024.01 — 2024.10</span>
+                    <span class="proj-list-item-name" data-editable>2024 글로벌 기업 협업 프로그램 사업 운영 (with NVIDIA)</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>엔비디아와의 사업 참여를 통해 제조 현장에서 활용 가능한 AI 모델 신규 개발 및 협업 논의 진행. 해당 아이디어를 한국타이어와 협의해 PoC 하도록 사업 확장, 24년도 엔비디아 우수 기업으로 선정.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2024.02 — 2024.10</span>
+                    <span class="proj-list-item-name" data-editable>2024 콘텐츠 이노베이션 사업 운영 (with 샌드박스 코리아)</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>샌드박스에 새로운 NFT 변환 모델 아이디어를 제안하여 1년간의 PoC 사업 진행. 사업 종료 시 해당 R&D 홍보를 위해 기존 교육 기관과의 협업 공모전 운영 논의.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head">
+                    <span class="proj-list-item-period" data-editable>2024.03 — 2024.10</span>
+                    <span class="proj-list-item-name" data-editable>성남시 X 엔닷라이트 청년창업 아이디에이션 4.0 교류사업 기획·운영</span>
+                  </div>
+                  <div class="proj-list-item-desc" data-editable>전시를 통해 구축한 파트너인 산타클라라 대학교·엔비디아·어도비 등의 네트워크를 활용, XR 분야에 관심있는 성남시 청년에게 해외 취창업 기회 탐색 기회 제공. 성남시청소년재단 최초로 3D·XR 분야에서 대규모 교육 연계 사업을 진행한 사례.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 엔피프틴 -->
+        <div class="cd-career-item">
+          <div class="cd-ci-header" onclick="toggleCd(this)">
+            <div>
+              <div class="cd-ci-company" data-editable>㈜엔피프틴</div>
+              <div class="cd-ci-meta" data-editable>메이커콘텐츠팀 · PD</div>
+              <div class="cd-ci-period" data-editable>2020.04 — 2021.11 (1년 7개월) · 퇴사 사유: 코로나로 인한 사업 방향성 변동, 강제적인 직무 변경</div>
+            </div>
+            <div class="cd-ci-right">
+              <span class="cd-ci-role" data-editable>PD</span>
+              <div class="cd-expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="cd-ci-body">
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">회사 소개</div>
+              <div class="cd-ci-body-text" data-editable>제조 스타트업 발굴·육성·투자를 지원하는 하드웨어 액셀러레이터.</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">주요 업무</div>
+              <div class="cd-ci-body-text" data-editable>4차산업혁명 주제 융합 IT 콘텐츠 기획·개발 / 기존 프로그램의 온라인화를 위한 업무 프로세스 및 온라인 송출 환경 구축 / 사내 데이터베이스·업무 프로세스 구축 담당</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">대표 프로젝트</div>
+              <div class="proj-list">
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.04 — 2020.07</span><span class="proj-list-item-name" data-editable>2020 서울시 디지털대장간 운영</span></div>
+                  <div class="proj-list-item-desc" data-editable>전국 최대 규모 메이커스페이스 '디지털대장간' 소속으로 시민 대상 교육 프로그램 운영. 코로나로 인한 공간 제한으로 온라인 코딩·메이킹 프로그램 기획·운영.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.07</span><span class="proj-list-item-name" data-editable>가톨릭대학교 하계 IT 해커톤</span></div>
+                  <div class="proj-list-item-desc" data-editable>가톨릭대학교 재학생 대상 기업 내 최초 온라인 아이디어 해커톤 기획·운영 사례 생성. 화상 환경 및 온라인 행사 페이지·아카이빙 페이지 자체 구축. 이후 사내 교육 진행.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.10 — 2020.11</span><span class="proj-list-item-name" data-editable>2020 서울시교육청 메이킹 마라톤</span></div>
+                  <div class="proj-list-item-desc" data-editable>서울시교육청 주관 온·오프라인 융합 메이킹톤 기획·운영.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.11 — 2020.11</span><span class="proj-list-item-name" data-editable>LG Display Open Innovation Forum</span></div>
+                  <div class="proj-list-item-desc" data-editable>LG Display 주관 스타트업 오픈이노베이션 포맷을 온라인으로 전환하는 파트 기획·운영.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.11 — 2021.01</span><span class="proj-list-item-name" data-editable>가톨릭대학교 동계 A.I. 해커톤</span></div>
+                  <div class="proj-list-item-desc" data-editable>인공지능 스타트업 Maum AI 사와 협력한 IT 비대면 해커톤 기획·운영. 협력사 Cloud API 기반 앱 개발 강의 콘텐츠 개발 및 참가자 심사. 행사 운영 페이지·아카이빙용 홈페이지 개발.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2021.02</span><span class="proj-list-item-name" data-editable>건국대학교 2020 온라인 A.I. 해커톤</span></div>
+                  <div class="proj-list-item-desc" data-editable>인공지능 챗봇 스타트업 단비 AI 사와 협력한 IT 비대면 해커톤 기획·운영. 협력사 챗봇 및 SW 프로젝트 멘토링 담당.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2021.03</span><span class="proj-list-item-name" data-editable>LG MBA 고객 직면 라이브커머스</span></div>
+                  <div class="proj-list-item-desc" data-editable>LG 인화원 최초 메타버스(게더타운) 기반 교육 프로그램 기획·운영. 행사 운영 페이지 및 비대면 행사를 위한 온라인 툴(Notion, Miro, Slack 등) 매뉴얼 페이지 개발.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2021.05 — 2021.09</span><span class="proj-list-item-name" data-editable>2021 BAT 코리아 오픈이노베이션 해커톤</span></div>
+                  <div class="proj-list-item-desc" data-editable>글로벌 기업 BAT와 함께 최초의 오픈이노베이션 프로그램 기획·운영, 프로젝트 리딩 담당. 홍보부터 스타트업 모집·관리·행사 준비까지 대부분의 업무 단독 진행. 모든 프로세스를 온라인으로 진행·관리하며 디자인 업무도 함께 담당.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2021.09 — 2021.11</span><span class="proj-list-item-name" data-editable>LG 공상평 상품기획 태스크</span></div>
+                  <div class="proj-list-item-desc" data-editable>LG 내 상품기획 부서와 자사의 상품기획 전략을 융합한 새로운 프로토타이핑 프로젝트. IT 기술 기반의 제품 설계 파트 및 액셀러레이팅 분야 담당.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2021.01 — 2021.11</span><span class="proj-list-item-name" data-editable>사내 데이터베이스 구축 TF팀</span></div>
+                  <div class="proj-list-item-desc" data-editable>본인의 제안으로 사내 보유 스타트업/파트너 데이터 구축 및 업무 공유체계 구축을 위한 TF 프로젝트 진행. Google 문서·드라이브 기반 Project Management Sheet 체계 및 공유 데이터 체계 구축으로 전사 직원 대상 사내 교육 실시, 타 부서 업무 체계에도 영향.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 이앤오즈 -->
+        <div class="cd-career-item">
+          <div class="cd-ci-header" onclick="toggleCd(this)">
+            <div>
+              <div class="cd-ci-company" data-editable>㈜이앤오즈</div>
+              <div class="cd-ci-meta" data-editable>미래교육실2팀 · 대리</div>
+              <div class="cd-ci-period" data-editable>2019.07 — 2020.04 (10개월) · 퇴사 사유: 코로나로 인한 매출 감소 및 부서 업무 목표 변화</div>
+            </div>
+            <div class="cd-ci-right">
+              <span class="cd-ci-role" data-editable>Assistant Manager</span>
+              <div class="cd-expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="cd-ci-body">
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">회사 소개</div>
+              <div class="cd-ci-body-text" data-editable>필리핀 지사 및 자체 화상 프로그램을 기반으로 코딩·영어 교육 서비스 제공.</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">주요 업무</div>
+              <div class="cd-ci-body-text" data-editable>4차산업혁명 관련 IT·메이커·진로 분야 콘텐츠 기획/개발/강의 / 공공기관·대기업 주관 중·대형 프로젝트 입찰 사업 기획·운영 관리 / 글로벌 기관·학교 협력 온라인 프로젝트 최초 연계·운영 담당</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">대표 프로젝트</div>
+              <div class="proj-list">
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2019.07 — 2019.12</span><span class="proj-list-item-name" data-editable>꿈길 진로체험</span></div>
+                  <div class="proj-list-item-desc" data-editable>'에디슨 로봇을 활용한 피지컬 SW 코딩 체험'을 주제로 프로그래밍 분야 진로 지식 전달. 서울 소재 중·고등학교 20개교 대상 강의 운영.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2019.08 — 2020.01</span><span class="proj-list-item-name" data-editable>2019년도 청소년 비즈쿨 메이커스페이스 연계 체험프로그램 위탁 용역 사업</span></div>
+                  <div class="proj-list-item-desc" data-editable>창업진흥원 운영 전국 비즈쿨 학교 250개교와 메이커스페이스 60개 기관 연계 사업 운영. 기업가 정신 온라인 강의 3종·메이커 장비 교육 교재 7종 기획·제작. 지역별 우수 수료 학교 32개교 선발 후 시제품 제작 공모전 기획·운영. 2019 비즈쿨 페스티벌 전시 행사 및 미니 해커톤 기획·운영. 우수 수행 기관 선정.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2019.08 — 2019.10</span><span class="proj-list-item-name" data-editable>2019년도 도서관 길위의 인문학 사업 (문화체육관광부)</span></div>
+                  <div class="proj-list-item-desc" data-editable>자유학기제 연계, 한성여자중·삼선중 대상. 인문학과 함께하는 4차산업혁명 강연, AR/VR, 에디슨 로봇 프로그래밍, 3D 모델링&프린팅 콘텐츠 강의. 우수 수행 기관 선정.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2019.10 — 2019.11</span><span class="proj-list-item-name" data-editable>2019 글로벌 아세안 메이커톤 운영 용역</span></div>
+                  <div class="proj-list-item-desc" data-editable>태국·필리핀·한국 고교생 대상 장애인 불편 문제를 개선하는 글로벌 메이커톤 기획·운영. 2019 비즈쿨 페스티벌 내 아세안 캠프 전시 존 운영 관리.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2019.11</span><span class="proj-list-item-name" data-editable>광주전남 소프트웨어체험 가족캠프</span></div>
+                  <div class="proj-list-item-desc" data-editable>프로그램 내 전 강의 총괄 운영. '광주전남 소개하기'를 주제로 캠프 내 8종의 SW 교육 개발, Cospaces 활용 AR/VR 메이킹 강의. 참가자·학부모 대상 '4차 산업혁명과 진로' 주제 대규모 강연 진행.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.01</span><span class="proj-list-item-name" data-editable>서울소재 비즈쿨 학교 교사 대상 메이커 교육 교원연수</span></div>
+                  <div class="proj-list-item-desc" data-editable>교실과 학생을 위한 주제로 1박 2일 메이커톤 기획 및 단독 강의.</div>
+                </div>
+                <div class="proj-list-item">
+                  <div class="proj-list-item-head"><span class="proj-list-item-period" data-editable>2020.02</span><span class="proj-list-item-name" data-editable>글로벌 링크드 프로젝트 데모 화상 캠프</span></div>
+                  <div class="proj-list-item-desc" data-editable>필리핀 Rizal Highschool 학생과 한국 대건고등학교 학생이 함께 온라인 환경문제 메이커톤 수행. 화상 장비를 통한 교육 과정 기획, 프로그램 총괄. 최초의 필리핀-한국 연계 글로벌 비대면 프로그램 운영 사례 생성.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 메이킷에듀 -->
+        <div class="cd-career-item">
+          <div class="cd-ci-header" onclick="toggleCd(this)">
+            <div>
+              <div class="cd-ci-company" data-editable>㈜메이킷에듀</div>
+              <div class="cd-ci-meta" data-editable>송도/대치점 연구부 · 주임연구원</div>
+              <div class="cd-ci-period" data-editable>2017.07 — 2019.07 (2년) · 퇴사 사유: 이직 제안 수락, 직무 영역 확장</div>
+            </div>
+            <div class="cd-ci-right">
+              <span class="cd-ci-role" data-editable>Senior Researcher</span>
+              <div class="cd-expand-btn"><span class="expand-icon">▼</span> 자세히 보기</div>
+            </div>
+          </div>
+          <div class="cd-ci-body">
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">회사 소개</div>
+              <div class="cd-ci-body-text" data-editable>코딩 교육 서비스업. 2개 지점에서 6세~성인 대상의 코딩 교육 제공 및 교재 개발.</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">주요 업무</div>
+              <div class="cd-ci-body-text" data-editable>6세부터 성인까지 폭넓은 연령 대상 코딩 콘텐츠·교재 기획 및 강의 / SW와 HW·메이킹·교과목 등을 융합한 콘텐츠 개발로 신규 사고력 수학 학원 개원 업무 담당 / 교육 이외에도 경영 관리·홍보 등을 위한 운영 업무 지원</div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">기획 및 강의 콘텐츠</div>
+              <div class="cd-ci-body-text" data-editable>
+                <strong style="color:var(--white);font-weight:700;">프로그래밍 언어</strong><br>
+                · 블록형: Scratch Jr, Scratch 2.0/3.0, Entry, App Inventor, Thunkable<br>
+                · 텍스트형: Python, C, C++, C#+Unity, RobotC, JavaScript, HTML, CSS<br><br>
+                <strong style="color:var(--white);font-weight:700;">프로그래밍 이론</strong><br>
+                · 언플러그드 컴퓨팅, 컴퓨팅 사고력 학습, 알고리즘, 자료구조, 빅데이터, 인공지능<br><br>
+                <strong style="color:var(--white);font-weight:700;">융합형 강의</strong><br>
+                · 교과 연계형: 수학과 함께하는 코딩, 과학과 함께하는 코딩<br>
+                · IoT 기반 프로젝트형: Arduino, Raspberry Pi, 대장장이보드, Littlebits, 초코파이보드<br>
+                · 메이커 장비 연계형: 3D 프린터, 레이저 커팅기<br><br>
+                <strong style="color:var(--white);font-weight:700;">실전 대회 대비</strong><br>
+                · 초/중/고 정보올림피아드, 청소년과학탐구대회, 코드페어, 기업별 공모전<br>
+                · 자격증 취득: COS, 코딩지도사, 정보처리자격증
+              </div>
+            </div>
+            <div class="cd-ci-section">
+              <div class="cd-ci-sec-title">기타 업무 및 성과</div>
+              <div class="cd-ci-body-text" data-editable>학원 운영·홍보를 위한 SNS 계정 운영·관리 (블로그1, 블로그2, 인스타그램). 프로젝트형 대회 대비반 운영을 통한 수상 성과 창출. 수학 연계 코딩 학원 '메이킷매쓰' 분사 기여 (SW와 교과목 융합 콘텐츠 단독 개발). 30종 이상의 신규 강의 개설 성공.</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end section -->
+    </div><!-- end tab-career -->
+
+  </div><!-- end content -->
+</div><!-- end app -->
+
+<!-- ADMIN TOOLBAR -->
+<div class="admin-toolbar" id="admin-toolbar">
+  <div class="atb-label">ADMIN EDIT MODE</div>
+  <button class="atb-btn atb-save" onclick="saveEdits()">저장하기 ✓</button>
+  <button class="atb-btn atb-discard" onclick="discardEdits()">변경 취소</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  const VIEW_CODE  = 'view2025';
+  const ADMIN_CODE = 'admin2025!';
+
+  let isAdmin = false;
+  let originals = {};
+
+  // LOGIN
+  function handleLogin() {
+    const val = document.getElementById('access-code').value.trim();
+    const err = document.getElementById('login-error');
+    if (val === ADMIN_CODE) { isAdmin = true; enterApp(); }
+    else if (val === VIEW_CODE) { isAdmin = false; enterApp(); }
+    else {
+      err.style.display = 'block';
+      setTimeout(() => err.style.display = 'none', 2500);
+    }
+  }
+
+  document.getElementById('access-code').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+
+  function enterApp() {
+    const ls = document.getElementById('login-screen');
+    ls.classList.add('login-exit');
+    setTimeout(() => {
+      ls.style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadSavedEdits();
+      if (isAdmin) setupAdmin();
+    }, 450);
+  }
+
+  // TABS
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ACCORDIONS
+  function toggleProj(header) {
+    const card = header.closest('.proj-card');
+    const body = header.nextElementSibling;
+    const isOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    body.classList.toggle('open');
+    const btn = header.querySelector('.expand-btn');
+    if (btn) btn.innerHTML = isOpen
+      ? '<span class="expand-icon">▼</span> 자세히 보기'
+      : '<span class="expand-icon">▼</span> 접기';
+  }
+
+  function toggleCd(header) {
+    const card = header.closest('.cd-career-item');
+    const body = header.nextElementSibling;
+    const isOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    body.classList.toggle('open');
+    const btn = header.querySelector('.cd-expand-btn');
+    if (btn) btn.innerHTML = isOpen
+      ? '<span class="expand-icon">▼</span> 자세히 보기'
+      : '<span class="expand-icon">▼</span> 접기';
+  }
+
+  // ADMIN
+  function setupAdmin() {
+    document.getElementById('mode-badge').textContent = 'ADMIN MODE';
+    document.getElementById('mode-badge').className = 'mode-badge admin';
+    document.getElementById('admin-toolbar').classList.add('visible');
+    document.getElementById('edit-hint').classList.add('visible');
+    document.querySelector('.content').classList.add('edit-mode');
+
+    document.querySelectorAll('[data-editable]').forEach((el, i) => {
+      el.contentEditable = 'true';
+      if (!el.dataset.eid) el.dataset.eid = 'e' + i;
+      originals[el.dataset.eid] = el.innerHTML;
+    });
+  }
+
+  function saveEdits() {
+    const data = {};
+    document.querySelectorAll('[data-editable]').forEach(el => {
+      data[el.dataset.eid] = el.innerHTML;
+    });
+    localStorage.setItem('kd_portfolio_v2', JSON.stringify(data));
+    showToast('저장되었습니다 ✓');
+  }
+
+  function discardEdits() {
+    document.querySelectorAll('[data-editable]').forEach(el => {
+      if (originals[el.dataset.eid] !== undefined) el.innerHTML = originals[el.dataset.eid];
+    });
+    showToast('변경사항이 취소되었습니다');
+  }
+
+  function loadSavedEdits() {
+    try {
+      const raw = localStorage.getItem('kd_portfolio_v2');
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      document.querySelectorAll('[data-editable]').forEach((el, i) => {
+        if (!el.dataset.eid) el.dataset.eid = 'e' + i;
+        if (data[el.dataset.eid] !== undefined) el.innerHTML = data[el.dataset.eid];
+      });
+    } catch(e) {}
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function logout() { location.reload(); }
+</script>
+</body>
+</html>
